@@ -41,19 +41,19 @@ ShaderProgram* sp;
 
 
 //Odkomentuj, żeby rysować kostkę
-float* vertices = myCubeVertices;
-float* normals = myCubeNormals;
-float* texCoords = myCubeTexCoords;
-float* colors = myCubeColors;
-int vertexCount = myCubeVertexCount;
+//float* vertices = myCubeVertices;
+//float* normals = myCubeNormals;
+//float* texCoords = myCubeTexCoords;
+//float* colors = myCubeColors;
+//int vertexCount = myCubeVertexCount;
 
 
 //Odkomentuj, żeby rysować czajnik
-//float* vertices = myTeapotVertices;
-//float* normals = myTeapotNormals;
-//float* texCoords = myTeapotTexCoords;
-//float* colors = myTeapotColors;
-//int vertexCount = myTeapotVertexCount;
+float* vertices = myTeapotVertices;
+float* normals = myTeapotVertexNormals;
+float* texCoords = myTeapotTexCoords;
+float* colors = myTeapotColors;
+int vertexCount = myTeapotVertexCount;
 
 
 
@@ -105,8 +105,10 @@ void freeOpenGLProgram(GLFWwindow* window) {
 
 //Procedura rysująca zawartość sceny
 void drawScene(GLFWwindow* window, float angle_x, float angle_y) {
-	//************Tutaj umieszczaj kod rysujący obraz******************l
+	
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glm::vec4 lp = glm::vec4(0, 0, -6, 1); //współrzędne światła
 
 	glm::mat4 V = glm::lookAt(
 		glm::vec3(0, 0, -5),
@@ -128,9 +130,19 @@ void drawScene(GLFWwindow* window, float angle_x, float angle_y) {
 	glEnableVertexAttribArray(sp->a("vertex"));  //Włącz przesyłanie danych do atrybutu vertex
 	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, vertices); //Wskaż tablicę z danymi dla atrybutu vertex
 
+	glEnableVertexAttribArray(sp->a("color"));  //Włącz przesyłanie danych do atrybutu color
+	glVertexAttribPointer(sp->a("color"), 4, GL_FLOAT, false, 0, colors); //Wskaż tablicę z danymi dla atrybutu color
+
+	glEnableVertexAttribArray(sp->a("normal"));  //Włącz przesyłanie danych do atrybutu normal
+	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, normals); //Wskaż tablicę z danymi dla atrybutu normal
+
+	glUniform4fv(sp->u("lp"), 1, glm::value_ptr(lp));
+
 	glDrawArrays(GL_TRIANGLES, 0, vertexCount); //Narysuj obiekt
 
 	glDisableVertexAttribArray(sp->a("vertex"));  //Wyłącz przesyłanie danych do atrybutu vertex
+	glDisableVertexAttribArray(sp->a("normal"));
+	glDisableVertexAttribArray(sp->a("color"));
 
 	glfwSwapBuffers(window); //Przerzuć tylny bufor na przedni
 }
