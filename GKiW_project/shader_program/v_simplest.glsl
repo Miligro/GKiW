@@ -1,26 +1,60 @@
+//#version 330
+//
+////Zmienne jednorodne
+//uniform mat4 P;
+//uniform mat4 V;
+//uniform mat4 M;
+//
+////Atrybuty
+//in vec4 vertex; //wspolrzedne wierzcholka w przestrzeni modelu
+////in vec4 color; //kolor zwi¹zany z wierzcho³kiem
+//in vec4 normal; //wektor normalny w przestrzeni modelu
+//in vec2 texCoord0;
+//
+////Zmienne interpolowane
+//out vec4 ic;
+//out vec4 l;
+//out vec4 n;
+//out vec4 v;
+//out vec2 iTexCoord0;
+//
+//void main(void) {
+//
+//    iTexCoord0 = texCoord0;
+//    vec4 color1 = vec4(0,0,1,1);
+//    vec4 lp = vec4(0, 1, 0, 1); //pozcyja œwiat³a, przestrzeñ œwiata
+//    l = normalize(V * lp - V*M*vertex); //wektor do œwiat³a w przestrzeni oka
+//    v = normalize(vec4(0, 0, 0, 1) - V * M * vertex); //wektor do obserwatora w przestrzeni oka
+//    n = normalize(V * M * normal); //wektor normalny w przestrzeni oka
+//
+//    ic = color1;
+//    
+//    gl_Position=P*V*M*vertex;
+//}
+//
+
 #version 330
 
 //Zmienne jednorodne
 uniform mat4 P;
 uniform mat4 V;
 uniform mat4 M;
-uniform vec4 lp;
 
 //Atrybuty
 in vec4 vertex; //wspolrzedne wierzcholka w przestrzeni modelu
-in vec4 normal;
-in vec4 color;
+//in vec4 color; //kolor zwi¹zany z wierzcho³kiem
+in vec4 normal; //wektor normalny w przestrzeni modelu
+in vec2 texCoord0;
 
-out vec4 ic;
+//Zmienne interpolowane
+out vec3 Normal;
+out vec3 FragPos;
+out vec2 TexCoords;
 
 void main(void) {
 
-    vec4 l = normalize(V * lp - V * M * vertex);
-    vec4 n = normalize(V*M*normal);
-
-    float nl = clamp(dot(n, l),0,1);
-
-    ic = vec4(color.rgb * nl, color.a);
-
-    gl_Position=P*V*M*vertex;
+    gl_Position = P * V *  M * vertex;
+    FragPos = vec3(M * vertex);
+    Normal = mat3(transpose(inverse(M))) * normal.xyz;
+    TexCoords = texCoord0;
 }

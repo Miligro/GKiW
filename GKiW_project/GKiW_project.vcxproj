@@ -147,6 +147,7 @@
   <ItemGroup>
     <ClCompile Include="GKiW_project.cpp" />
     <ClCompile Include="other_files\lodepng.cpp" />
+    <ClCompile Include="readModel.cpp" />
     <ClCompile Include="shader_program\shaderprogram.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +159,7 @@
     <ClInclude Include="other_files\lodepng.h" />
     <ClInclude Include="other_files\myCube.h" />
     <ClInclude Include="other_files\myTeapot.h" />
+    <ClInclude Include="readModel.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

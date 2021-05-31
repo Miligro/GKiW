@@ -1,4 +1,6 @@
 ﻿  GKiW_project.cpp
-D:\GKiW\GKiW_project\GKiW_project.cpp(187,37): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
-D:\GKiW\GKiW_project\GKiW_project.cpp(188,37): warning C4244: "+=": konwersja z "double" do "float", możliwa utrata danych
+D:\GKiW\GKiW_project\GKiW_project.cpp(386,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(387,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(389,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(390,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   GKiW_project.vcxproj -> D:\GKiW\GKiW_project\x64\Debug\GKiW_project.exe
