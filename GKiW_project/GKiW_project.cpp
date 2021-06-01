@@ -54,8 +54,12 @@ ShaderProgram* sp;
 GLuint tex;
 GLuint tex1;
 GLuint tex2;
+GLuint tex3;
 readModel wall("cubewall.obj");
-readModel lamp("lampeczka.obj");
+readModel lamp("container.obj");
+
+readModel klosz("container.obj");
+readModel podstawa("podstawa.obj");
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -129,6 +133,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	tex = readTexture("coding.png");
 	tex1 = readTexture("water.png");
 	tex2 = readTexture("white.png");
+	tex3 = readTexture("metal.png");
 	sp = new ShaderProgram("shader_program/v_simplest.glsl", NULL, "shader_program/f_simplest.glsl");
 }
 
@@ -146,6 +151,39 @@ void drawLamp(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
 
 	M = glm::mat4(1.0f);
+	M = glm::translate(M, glm::vec3(0.116684f, -1.431387f, 0.0f));
+	M = glm::rotate(M, angle_x, glm::vec3(0.0f, 0.0f, 1.0f));
+
+	sp->use();
+
+	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
+	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
+
+	glUniform1i(sp->u("textureMap0"), 3);
+
+	glEnableVertexAttribArray(sp->a("texCoord0"));
+	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, klosz.gettexCoords());
+
+	glEnableVertexAttribArray(sp->a("vertex"));
+	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, klosz.getVertices());
+
+	glEnableVertexAttribArray(sp->a("normal"));
+	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, klosz.getNormals());
+
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, tex3);
+	glDrawArrays(GL_TRIANGLES, 0, klosz.getVertexNumber());
+
+	glDisableVertexAttribArray(sp->a("vertex"));
+	glDisableVertexAttribArray(sp->a("normal"));
+	glDisableVertexAttribArray(sp->a("texCoord0"));
+
+	M = glm::mat4(1.0f);
+	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
+	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+
+	M = glm::mat4(1.0f);
 	M = glm::translate(M, glm::vec3(0.0f, -2.0f, 0.0f));
 	sp->use();
 
@@ -153,20 +191,20 @@ void drawLamp(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 
-	glUniform1i(sp->u("textureMap0"), 2);
+	glUniform1i(sp->u("textureMap0"), 3);
 
 	glEnableVertexAttribArray(sp->a("texCoord0"));
-	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, lamp.gettexCoords());
+	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, podstawa.gettexCoords());
 
 	glEnableVertexAttribArray(sp->a("vertex"));
-	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, lamp.getVertices());
+	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, podstawa.getVertices());
 
 	glEnableVertexAttribArray(sp->a("normal"));
-	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, lamp.getNormals());
+	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, podstawa.getNormals());
 
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, tex2);
-	glDrawArrays(GL_TRIANGLES, 0, lamp.getVertexNumber());
+	glActiveTexture(GL_TEXTURE3);
+	glBindTexture(GL_TEXTURE_2D, tex3);
+	glDrawArrays(GL_TRIANGLES, 0, podstawa.getVertexNumber());
 
 	glDisableVertexAttribArray(sp->a("vertex"));
 	glDisableVertexAttribArray(sp->a("normal"));
@@ -183,19 +221,17 @@ void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	for (int i = 0; i < 4; i++) {
 		M = glm::mat4(1.0f);
 		if (i == 0) {
-			M = glm::rotate(M, angle_x + 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, 4.0f));
 		}
 		else if (i == 1) {
-			M = glm::rotate(M, angle_x, glm::vec3(0.0f, 1.0f, 0.0f));
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, 4.0f));
 		}
 		else if (i == 2) {
-			M = glm::rotate(M, angle_x, glm::vec3(0.0f, 1.0f, 0.0f));
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, -4.0f));
 		}
 		else{
-			M = glm::rotate(M, angle_x + 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, -4.0f));
 		}
 
@@ -226,7 +262,6 @@ void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 
 	M = glm::mat4(1.0f);
 	M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
-	M = glm::rotate(M, angle_x, glm::vec3(1.0f, 0.0f, 0.0f));
 	M = glm::translate(M, glm::vec3(-2.2f, 0.0f, 0.0f));
 	M = glm::scale(M, glm::vec3(0.2f, 4.0f, 4.0f));
 	sp->use();
@@ -346,7 +381,8 @@ int main(void)
 
 	wall.read();
 	lamp.read();
-
+	klosz.read();
+	podstawa.read();
 
 	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
 

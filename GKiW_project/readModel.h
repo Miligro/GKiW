@@ -4,6 +4,8 @@
 #include <fstream>
 #include <iostream>
 #include <stdlib.h>
+#include <sstream>
+#include <string>
 
 class readModel
 {

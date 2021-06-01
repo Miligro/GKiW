@@ -3,6 +3,10 @@
 void readModel::read() {
 
 	std::ifstream file(filename);
+	std::string tmp;
+	int index;
+	int counter = 0;
+
 	if (file.is_open()) {
 		while (!file.eof()) {
 			char header[128];
@@ -35,26 +39,29 @@ void readModel::read() {
 				normals.push_back(0);
 			}
 			else if (strcmp(header, "f") == 0) {
-				int a, b, c, d, e, f, g, h, i;
-				file >> a;
-				file >> b;
-				file >> c;
-				file >> d;
-				file >> e;
-				file >> f;
-				file >> g;
-				file >> h;
-				file >> i;
-				vertexIndexes.push_back(abs(a) - 1);
-				textureIndexes.push_back(abs(b) - 1);
-				normalIndexes.push_back(abs(c) - 1);
-				vertexIndexes.push_back(abs(d) - 1);
-				textureIndexes.push_back(abs(e) - 1);
-				normalIndexes.push_back(abs(f) - 1);
-				vertexIndexes.push_back(abs(g) - 1);
-				textureIndexes.push_back(abs(h) - 1);
-				normalIndexes.push_back(abs(i) - 1);
 
+				counter = 0;
+				getline(file, tmp, '\n');
+				std::stringstream ss(tmp);
+				std::string word;
+				while (ss >> word) {
+					std::stringstream ss(word);
+					std::string token;
+
+					while (std::getline(ss, token, '/')) {
+						index = atoi(token.c_str());
+						if (counter % 3 == 0) {
+							vertexIndexes.push_back(index - 1);
+						}
+						else if (counter % 3 == 1) {
+							textureIndexes.push_back(index - 1);
+						}
+						else if (counter % 3 == 2) {
+							normalIndexes.push_back(index - 1);
+						}
+						counter += 1;
+					}
+				}
 			}
 		}
 	}

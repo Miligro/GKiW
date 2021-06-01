@@ -40,7 +40,7 @@ in vec2 TexCoords;
 
 void main(void) {
 
-    vec3 lightPos = vec3(0.0,1.0,0.0);
+    vec3 lightPos = vec3(0.316684f,-1.431387f,0.0f);
     vec3 lightDiff = vec3(0.5f);
 	vec4 texColor = texture(textureMap0,TexCoords);
 
@@ -61,7 +61,7 @@ void main(void) {
     //tutaj wektor pozycji
     vec3 viewDir = normalize(vec3(0.0,0.0,0.0) - FragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 130);
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 260);
     vec3 specular = ks * spec * ks;
     
     // Attenuation
