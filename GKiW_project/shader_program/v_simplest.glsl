@@ -33,6 +33,12 @@
 //}
 //
 
+
+
+
+
+
+//te lepsze
 #version 330
 
 //Zmienne jednorodne

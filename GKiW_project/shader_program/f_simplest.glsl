@@ -28,6 +28,12 @@
 //	//pixelColor=ic;
 //}
 
+
+
+
+
+
+//te lepsze
 #version 330
 
 uniform sampler2D textureMap0;
@@ -40,8 +46,8 @@ in vec2 TexCoords;
 
 void main(void) {
 
-    vec3 lightPos = vec3(0.316684f,-1.431387f,0.0f);
-    vec3 lightDiff = vec3(0.5f);
+    vec3 lightPos = vec3(0.248954f,-1.431387f,0.0f);
+    vec3 lightDiff = vec3(0.9f);
 	vec4 texColor = texture(textureMap0,TexCoords);
 
 
