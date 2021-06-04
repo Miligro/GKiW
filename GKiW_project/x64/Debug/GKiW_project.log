@@ -1,16 +1,6 @@
 ﻿  GKiW_project.cpp
-D:\GKiW\GKiW_project\GKiW_project.cpp(115,38): warning C4305: '-=': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-D:\GKiW\GKiW_project\GKiW_project.cpp(118,38): warning C4305: '+=': truncation from 'double' to 'T'
-          with
-          [
-              T=float
-          ]
-D:\GKiW\GKiW_project\GKiW_project.cpp(462,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(463,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(465,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(466,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(422,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(423,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(425,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+D:\GKiW\GKiW_project\GKiW_project.cpp(426,37): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   GKiW_project.vcxproj -> D:\GKiW\GKiW_project\x64\Debug\GKiW_project.exe

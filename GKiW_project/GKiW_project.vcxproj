@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="folder.cpp" />
     <ClCompile Include="GKiW_project.cpp" />
     <ClCompile Include="other_files\lodepng.cpp" />
     <ClCompile Include="readModel.cpp" />
@@ -155,6 +156,7 @@
     <None Include="shader_program\v_simplest.glsl" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="folder.h" />
     <ClInclude Include="other_files\constants.h" />
     <ClInclude Include="other_files\lodepng.h" />
     <ClInclude Include="other_files\myCube.h" />

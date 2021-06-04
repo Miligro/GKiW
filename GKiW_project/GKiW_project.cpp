@@ -31,6 +31,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "other_files/myCube.h"
 #include "other_files/myTeapot.h"
 #include "readModel.h"
+#include "folder.h"
 #include <iostream>
 #include <vector>
 
@@ -56,15 +57,14 @@ GLuint tex;
 GLuint tex1;
 GLuint tex2;
 GLuint tex3;
-int choose = -1;
+int actually = 0;
 readModel wall("cubewall.obj");
-readModel folder("container.obj");
+readModel folder1("container.obj");
 readModel klosz("kloszv2.obj");
 readModel podstawa("podstawa.obj");
 readModel zarowka("zarowka.obj");
 
-std::vector<std::pair<int, glm::vec3>> folders_pos;
-std::vector<std::pair<bool, glm::vec3>> places;
+std::vector<folder> folders;
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -92,51 +92,19 @@ GLuint readTexture(const char* filename) {
 	return tex;
 }
 
-
-void add_folder() {
-	for (int i = 0; i < places.size(); i++) {
-		if (places.at(i).first == false) {
-			places.at(i).first = true;
-			folders_pos.push_back(std::make_pair(0,places.at(i).second));
-			break;
-		}
-		else if (i == places.size() - 1) {
-			std::cout << "Brak miejsca na folder" << std::endl;
-		}
-	}
-}
-
-void refresh_pos() {
-	for (int i = 0; i < folders_pos.size(); i++) {
-		if (abs(abs(folders_pos.at(i).second.z) - 3.6) < 0.01) {
-			folders_pos.at(i).first = (folders_pos.at(i).first + 1) % 2;
-		}
-		if (folders_pos.at(i).first == 0) {
-			folders_pos.at(i).second.z -= 0.01;
-		}
-		else {
-			folders_pos.at(i).second.z += 0.01;
-		}
-	}
-}
-
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		if (key == GLFW_KEY_LEFT) {
-			if (choose < 12 && folders_pos.size() > choose + 3)
-				choose += 3;
+			folders.at(actually).setChoose(3);
 		}
 		if (key == GLFW_KEY_RIGHT) {
-			if (choose > 2)
-				choose -= 3;
+			folders.at(actually).setChoose(-3);
 		}
 		if (key == GLFW_KEY_UP) {
-			if (choose > 0)
-				choose -= 1;
+			folders.at(actually).setChoose(-1);
 		}
 		if (key == GLFW_KEY_DOWN) {
-			if (choose < 14 && folders_pos.size() > choose + 1)
-				choose += 1;
+			folders.at(actually).setChoose(1);
 		}
 
 		if (key == 'A') speed_y1 = 1;
@@ -145,7 +113,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		if (key == 'F') speed_x1 = -1;
 		if (key == 'W') walk_speed = 2;
 		if (key == 'S') walk_speed = -2;
-		if (key == 'O') add_folder();
+		if (key == 'O') folders.at(actually).add_folder();
 	}
 	if (action == GLFW_RELEASE) {
 		if (key == 'A') speed_y1 = 0;
@@ -265,7 +233,6 @@ void drawLamp(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 }
 
-
 void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm::mat4 P) {
 
 	glm::mat4 M = glm::mat4(1.0f);
@@ -342,7 +309,6 @@ void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 }
 
-
 void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
@@ -352,36 +318,36 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 
 	sp->use();
 	glEnableVertexAttribArray(sp->a("texCoord0"));
-	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, folder.gettexCoords());
+	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, folder1.gettexCoords());
 
 	glEnableVertexAttribArray(sp->a("vertex"));
-	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, folder.getVertices());
+	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, folder1.getVertices());
 
 	glEnableVertexAttribArray(sp->a("normal"));
-	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, folder.getNormals());
+	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, folder1.getNormals());
 	glUniform1i(sp->u("textureMap0"), 3);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, tex3);
 
-	for (int i = 0; i < folders_pos.size(); i++) {
-		if (i != choose) {
+	for (int i = 0; i < folders.at(actually).getFolderPos().size(); i++) {
+		if (i != folders.at(actually).getChoose()) {
 			M = glm::mat4(1.0f);
 			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			M = glm::translate(M, folders_pos.at(i).second);
+			M = glm::translate(M, folders.at(actually).getFolderPos().at(i).second);
 			glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-			glDrawArrays(GL_TRIANGLES, 0, folder.getVertexNumber());
+			glDrawArrays(GL_TRIANGLES, 0, folder1.getVertexNumber());
 		}
 	}
 
-	if (choose != -1) {
+	if (folders.at(actually).getChoose() != -1) {
 		glUniform1i(sp->u("textureMap0"), 2);
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, tex2);
 		M = glm::mat4(1.0f);
 		M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		M = glm::translate(M, folders_pos.at(choose).second);
+		M = glm::translate(M, folders.at(actually).getFolderPos().at(folders.at(actually).getChoose()).second);
 		glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-		glDrawArrays(GL_TRIANGLES, 0, folder.getVertexNumber());
+		glDrawArrays(GL_TRIANGLES, 0, folder1.getVertexNumber());
 	}
  
 	glDisableVertexAttribArray(sp->a("vertex"));
@@ -404,25 +370,19 @@ void drawScene(GLFWwindow* window, float angle_x, float angle_y, float kat_x, fl
 
 void start() {
 	wall.read();
-	folder.read();
+	folder1.read();
 	klosz.read();
 	podstawa.read();
 	zarowka.read();
-
-	for (int i = 0; i < 5; i++) {
-		for (int j = 0; j < 3; j++) {
-			places.push_back(std::make_pair(false, glm::vec3(-3.5f + 1.0f * i, 0.0f - 0.8f * j, 0.0f)));
-		}
-	}
+	folder main(-1);
+	folders.push_back(main);
 }
 
 
 int main(void)
 {
 	GLFWwindow* window; //Wskaźnik na obiekt reprezentujący okno
-	std::cout << "SIEMA" << std::endl;
 	start();
-
 
 	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
 
@@ -467,7 +427,7 @@ int main(void)
 		glfwSetTime(0); //Zeruj timer
 		drawScene(window, angle_x, angle_y, kat_x, kat_y); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
-		refresh_pos();
+		folders.at(actually).refresh_pos();
 	}
 
 	freeOpenGLProgram(window);
