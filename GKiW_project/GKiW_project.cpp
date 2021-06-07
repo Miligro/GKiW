@@ -109,7 +109,12 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			desktop.setCho();
 		}
 		if (key == GLFW_KEY_ESCAPE) {
+			std::cout << "\n";
+			desktop.wypisz();
 			desktop.restoreCho();
+			std::cout << "\n\n";
+			desktop.wypisz();
+			std::cout << "\n\n\n\n";
 		}
 		if (key == 'A') speed_y1 = 1;
 		if (key == 'D') speed_y1 = -1;

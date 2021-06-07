@@ -101,19 +101,19 @@ std::vector<std::pair<int, glm::vec3>> folder::getFolderPos() {
 }
 
 int folder::getCho() {
-	if (cho == -1) {
+	//if (cho == -1) {
 		return cho;
-	}
-	else {
-		return folders.at(cho).getCho();
-	}
+	//}
+	//else {
+		//return folders.at(cho).getCho();
+	//}
 }
 
 void folder::setCho() {
-	if (cho == -1) {
+	if (cho == -1 && choose != -1) {
 		cho = choose;
 	}
-	else {
+	else if (cho != -1){
 		folders.at(cho).setCho();
 	}
 }
