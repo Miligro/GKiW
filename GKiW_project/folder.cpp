@@ -118,11 +118,14 @@ void folder::setCho() {
 	}
 }
 
+
 void folder::restoreCho() {
-	if (cho != -1 && folders.at(cho).getCho() == -1) {
-		cho = -1;
-	}
-	else {
-		folders.at(cho).restoreCho();
+	if (cho != -1){
+		if (folders.at(cho).getCho() == -1) {
+			cho = -1;
+		}
+		else {
+			folders.at(cho).restoreCho();
+		}
 	}
 }
