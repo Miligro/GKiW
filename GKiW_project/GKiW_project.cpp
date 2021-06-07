@@ -57,14 +57,13 @@ GLuint tex;
 GLuint tex1;
 GLuint tex2;
 GLuint tex3;
-int actually = 0;
 readModel wall("cubewall.obj");
 readModel folder1("container.obj");
 readModel klosz("kloszv2.obj");
 readModel podstawa("podstawa.obj");
 readModel zarowka("zarowka.obj");
 
-std::vector<folder> folders;
+folder desktop;
 
 //Procedura obsługi błędów
 void error_callback(int error, const char* description) {
@@ -95,25 +94,30 @@ GLuint readTexture(const char* filename) {
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
 	if (action == GLFW_PRESS) {
 		if (key == GLFW_KEY_LEFT) {
-			folders.at(actually).setChoose(3);
+			desktop.setChoose(3);
 		}
 		if (key == GLFW_KEY_RIGHT) {
-			folders.at(actually).setChoose(-3);
+			desktop.setChoose(-3);
 		}
 		if (key == GLFW_KEY_UP) {
-			folders.at(actually).setChoose(-1);
+			desktop.setChoose(-1);
 		}
 		if (key == GLFW_KEY_DOWN) {
-			folders.at(actually).setChoose(1);
+			desktop.setChoose(1);
 		}
-
+		if (key == GLFW_KEY_ENTER) {
+			desktop.setCho();
+		}
+		if (key == GLFW_KEY_ESCAPE) {
+			desktop.restoreCho();
+		}
 		if (key == 'A') speed_y1 = 1;
 		if (key == 'D') speed_y1 = -1;
 		if (key == 'R') speed_x1 = 1;
 		if (key == 'F') speed_x1 = -1;
 		if (key == 'W') walk_speed = 2;
 		if (key == 'S') walk_speed = -2;
-		if (key == 'O') folders.at(actually).add_folder();
+		if (key == 'O') desktop.add_folder();
 	}
 	if (action == GLFW_RELEASE) {
 		if (key == 'A') speed_y1 = 0;
@@ -329,23 +333,23 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, tex3);
 
-	for (int i = 0; i < folders.at(actually).getFolderPos().size(); i++) {
-		if (i != folders.at(actually).getChoose()) {
+	for (int i = 0; i < desktop.getFolderPos().size(); i++) {
+		if (i != desktop.getChoose()) {
 			M = glm::mat4(1.0f);
 			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			M = glm::translate(M, folders.at(actually).getFolderPos().at(i).second);
+			M = glm::translate(M, desktop.getFolderPos().at(i).second);
 			glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 			glDrawArrays(GL_TRIANGLES, 0, folder1.getVertexNumber());
 		}
 	}
 
-	if (folders.at(actually).getChoose() != -1) {
+	if (desktop.getChoose() != -1) {
 		glUniform1i(sp->u("textureMap0"), 2);
 		glActiveTexture(GL_TEXTURE3);
 		glBindTexture(GL_TEXTURE_2D, tex2);
 		M = glm::mat4(1.0f);
 		M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-		M = glm::translate(M, folders.at(actually).getFolderPos().at(folders.at(actually).getChoose()).second);
+		M = glm::translate(M, desktop.getFolderPos().at(desktop.getChoose()).second);
 		glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 		glDrawArrays(GL_TRIANGLES, 0, folder1.getVertexNumber());
 	}
@@ -374,8 +378,6 @@ void start() {
 	klosz.read();
 	podstawa.read();
 	zarowka.read();
-	folder main(-1);
-	folders.push_back(main);
 }
 
 
@@ -427,7 +429,7 @@ int main(void)
 		glfwSetTime(0); //Zeruj timer
 		drawScene(window, angle_x, angle_y, kat_x, kat_y); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
-		folders.at(actually).refresh_pos();
+		desktop.refresh_pos();
 	}
 
 	freeOpenGLProgram(window);
