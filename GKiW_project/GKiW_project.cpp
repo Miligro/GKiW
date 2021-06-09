@@ -35,8 +35,8 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include <iostream>
 #include <vector>
 
-float speed_x = 0;
-float speed_y = 0;
+float lamp1 = 0;
+float lamp2 = 0;
 float aspectRatio = 1;
 float walk_speed = 0;
 float speed_x1 = 0;
@@ -57,11 +57,10 @@ GLuint tex;
 GLuint tex1;
 GLuint tex2;
 GLuint tex3;
+GLuint tex4;
 readModel wall("cubewall.obj");
 readModel folder1("container.obj");
-readModel klosz("kloszv2.obj");
-readModel podstawa("podstawa.obj");
-readModel zarowka("zarowka.obj");
+readModel lampa("reflector.obj");
 
 folder desktop;
 
@@ -114,6 +113,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		if (key == 'L') desktop.remove_folder();
 		if (key == 'A') speed_y1 = 1;
 		if (key == 'D') speed_y1 = -1;
+		if (key == 'Z') lamp1 = 1;
+		if (key == 'X') lamp1 = -1;
+		if (key == 'C') lamp2 = 1;
+		if (key == 'V') lamp2 = -1;
 		if (key == 'R') speed_x1 = 1;
 		if (key == 'F') speed_x1 = -1;
 		if (key == 'W') walk_speed = 2;
@@ -121,6 +124,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		if (key == 'O') desktop.add_folder();
 	}
 	if (action == GLFW_RELEASE) {
+		if (key == 'Z') lamp1 = 0;
+		if (key == 'X') lamp1 = 0;
+		if (key == 'C') lamp2 = 0;
+		if (key == 'V') lamp2 = 0;
 		if (key == 'A') speed_y1 = 0;
 		if (key == 'D') speed_y1 = 0;
 		if (key == 'R') speed_x1 = 0;
@@ -147,6 +154,7 @@ void initOpenGLProgram(GLFWwindow* window) {
 	tex1 = readTexture("water.png");
 	tex2 = readTexture("white.png");
 	tex3 = readTexture("metal.png");
+	tex4 = readTexture("darkmetal.png");
 	sp = new ShaderProgram("shader_program/v_simplest.glsl", NULL, "shader_program/f_simplest.glsl");
 }
 
@@ -158,87 +166,10 @@ void freeOpenGLProgram(GLFWwindow* window) {
 	glDeleteTextures(1, &tex1);
 	glDeleteTextures(1, &tex2);
 	glDeleteTextures(1, &tex3);
+	glDeleteTextures(1, &tex4);
 }
 
-void drawLamp(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm::mat4 P) {
-	glm::mat4 M = glm::mat4(1.0f);
-	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
-	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
-
-	M = glm::mat4(1.0f);
-	M = glm::translate(M, glm::vec3(0.116684f, -1.431387f, 0.0f));
-	M = glm::rotate(M, angle_x, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	sp->use();
-
-	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-
-	glUniform1i(sp->u("textureMap0"), 3);
-
-	glEnableVertexAttribArray(sp->a("texCoord0"));
-	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, klosz.gettexCoords());
-
-	glEnableVertexAttribArray(sp->a("vertex"));
-	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, klosz.getVertices());
-
-	glEnableVertexAttribArray(sp->a("normal"));
-	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, klosz.getNormals());
-
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_2D, tex3);
-	glDrawArrays(GL_TRIANGLES, 0, klosz.getVertexNumber());
-
-	glDisableVertexAttribArray(sp->a("vertex"));
-	glDisableVertexAttribArray(sp->a("normal"));
-	glDisableVertexAttribArray(sp->a("texCoord0"));
-
-	M = glm::mat4(1.0f);
-	M = glm::mat4(1.0f);
-	M = glm::translate(M, glm::vec3(0.0f, -2.0f, 0.0f));
-
-	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-
-
-	glEnableVertexAttribArray(sp->a("texCoord0"));
-	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, podstawa.gettexCoords());
-
-	glEnableVertexAttribArray(sp->a("vertex"));
-	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, podstawa.getVertices());
-
-	glEnableVertexAttribArray(sp->a("normal"));
-	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, podstawa.getNormals());
-
-	glDrawArrays(GL_TRIANGLES, 0, podstawa.getVertexNumber());
-
-	glDisableVertexAttribArray(sp->a("vertex"));
-	glDisableVertexAttribArray(sp->a("normal"));
-	glDisableVertexAttribArray(sp->a("texCoord0"));
-
-
-
-	M = glm::mat4(1.0f);
-	M = glm::translate(M, glm::vec3(0.116684f, -1.431387f, 0.0f));
-	M = glm::rotate(M, angle_x, glm::vec3(0.0f, 0.0f, 1.0f));
-
-	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
-
-	glEnableVertexAttribArray(sp->a("texCoord0"));
-	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, zarowka.gettexCoords());
-
-	glEnableVertexAttribArray(sp->a("vertex"));
-	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, zarowka.getVertices());
-
-	glEnableVertexAttribArray(sp->a("normal"));
-	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, zarowka.getNormals());
-
-	glDrawArrays(GL_TRIANGLES, 0, zarowka.getVertexNumber());
-
-	glDisableVertexAttribArray(sp->a("vertex"));
-	glDisableVertexAttribArray(sp->a("normal"));
-	glDisableVertexAttribArray(sp->a("texCoord0"));
-}
-
-void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm::mat4 P) {
+void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
@@ -314,6 +245,46 @@ void drawRoom(GLFWwindow* window, float angle_x, float angle_y, glm::mat4 V, glm
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 }
 
+void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V, glm::mat4 P) {
+	glm::mat4 M = glm::mat4(1.0f);
+	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
+	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+
+	M = glm::translate(M, glm::vec3(3.6f, 2.0f, 3.6f));
+	M = glm::rotate(M, angle_1, glm::vec3(0.0f, 1.0f, 0.0f));
+
+	sp->use();
+
+	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
+
+	glUniform1i(sp->u("textureMap0"), 4);
+
+	glEnableVertexAttribArray(sp->a("texCoord0"));
+	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, lampa.gettexCoords());
+
+	glEnableVertexAttribArray(sp->a("vertex"));
+	glVertexAttribPointer(sp->a("vertex"), 4, GL_FLOAT, false, 0, lampa.getVertices());
+
+	glEnableVertexAttribArray(sp->a("normal"));
+	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, lampa.getNormals());
+
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_2D, tex4);
+	glDrawArrays(GL_TRIANGLES, 0, lampa.getVertexNumber());
+
+
+	M = glm::mat4(1.0f);
+	M = glm::translate(M, glm::vec3(-3.6f, 2.0f, 3.6f));
+	M = glm::rotate(M, -angle_2, glm::vec3(0.0f, 1.0f, 0.0f));
+	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
+	glDrawArrays(GL_TRIANGLES, 0, lampa.getVertexNumber());
+
+
+	glDisableVertexAttribArray(sp->a("vertex"));
+	glDisableVertexAttribArray(sp->a("normal"));
+	glDisableVertexAttribArray(sp->a("texCoord0"));
+}
+
 void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
@@ -346,7 +317,7 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 
 	if (desktop.getChoose() != -1) {
 		glUniform1i(sp->u("textureMap0"), 2);
-		glActiveTexture(GL_TEXTURE3);
+		glActiveTexture(GL_TEXTURE2);
 		glBindTexture(GL_TEXTURE_2D, tex2);
 		M = glm::mat4(1.0f);
 		M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -361,14 +332,14 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 }
 
 //Procedura rysująca zawartość sceny
-void drawScene(GLFWwindow* window, float angle_x, float angle_y, float kat_x, float kat_y) {
+void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, float kat_y) {
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	glm::mat4 V = glm::lookAt(pos, pos + calcDir(kat_x, kat_y), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
 	glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 0.1f, 50.0f); //Wylicz macierz rzutowania
-	drawRoom(window, angle_x, angle_y,V,P);
-	//drawLamp(window, angle_x, angle_y, V, P);
+	drawRoom(window, V, P);
+	drawReflector(window, angle_1, angle_2, V, P);
 	drawFolders(window, V, P);
 	glfwSwapBuffers(window);
 }
@@ -376,9 +347,7 @@ void drawScene(GLFWwindow* window, float angle_x, float angle_y, float kat_x, fl
 void start() {
 	wall.read();
 	folder1.read();
-	klosz.read();
-	podstawa.read();
-	zarowka.read();
+	lampa.read();
 }
 
 
@@ -414,8 +383,8 @@ int main(void)
 	initOpenGLProgram(window); //Operacje inicjujące
 
 	//Główna pętla
-	float angle_x = 0; //Aktualny kąt obrotu obiektu
-	float angle_y = 0; //Aktualny kąt obrotu obiektu
+	float angle_1 = 0; //Aktualny kąt obrotu obiektu
+	float angle_2 = 0; //Aktualny kąt obrotu obiektu
 	float angle = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
 	float kat_x = 0;
 	float kat_y = 0;
@@ -425,10 +394,14 @@ int main(void)
 		kat_x += speed_x1 * glfwGetTime();
 		kat_y += speed_y1 * glfwGetTime();
 		pos += (float)(walk_speed * glfwGetTime()) * calcDir(kat_x, kat_y);
-		angle_x += speed_x * glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
-		angle_y += speed_y * glfwGetTime(); //Zwiększ/zmniejsz kąt obrotu na podstawie prędkości i czasu jaki upłynał od poprzedniej klatki
+		if (angle_1 >1.57 && lamp1 == -1 || angle_1 < 0.0 && lamp1 == 1 || angle_1 <= 1.57 && angle_1 >= 0.0) {
+			angle_1 += lamp1 * glfwGetTime();
+		}
+		if (angle_2 > 1.57 && lamp2 == -1 || angle_2 < 0.0 && lamp2 == 1 || angle_2 <= 1.57 && angle_2 >= 0.0) {
+			angle_2 += lamp2 * glfwGetTime();
+		}
 		glfwSetTime(0); //Zeruj timer
-		drawScene(window, angle_x, angle_y, kat_x, kat_y); //Wykonaj procedurę rysującą
+		drawScene(window, angle_1, angle_2, kat_x, kat_y); //Wykonaj procedurę rysującą
 		glfwPollEvents(); //Wykonaj procedury callback w zalezności od zdarzeń jakie zaszły.
 		desktop.refresh_pos();
 	}

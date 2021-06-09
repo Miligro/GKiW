@@ -18,14 +18,10 @@ void folder::add_folder() {
 				std::vector<std::pair<int, glm::vec3>>::iterator it_pos;
 				it_pos = folder_pos.begin();
 				folder_pos.insert(it_pos+i, std::make_pair(0, places.at(i).second));
-				//folder_pos.push_back(std::make_pair(0, places.at(i).second));
-
 				std::vector<folder>::iterator it_place;
 				it_place = folders.begin();
-
 				folder x;
 				folders.insert(it_place + i, x);
-				//folders.push_back(x);
 				break;
 			}
 			else if (i == places.size() - 1) {
