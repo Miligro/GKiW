@@ -22,13 +22,8 @@ public:
 	int getCho();
 	void setCho();
 	void restoreCho();
+	void remove_folder();
 	std::vector<std::pair<bool, glm::vec3>> getPlaces();
 	std::vector<std::pair<int, glm::vec3>> getFolderPos();
-	void wypisz() {
-		std::cout << cho << "\n";
-		if (folders.size() != 0) {
-			folders.at(0).wypisz();
-		}
-	}
 };
 

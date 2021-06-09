@@ -15,9 +15,17 @@ void folder::add_folder() {
 		for (int i = 0; i < places.size(); i++) {
 			if (places.at(i).first == false) {
 				places.at(i).first = true;
-				folder_pos.push_back(std::make_pair(0, places.at(i).second));
+				std::vector<std::pair<int, glm::vec3>>::iterator it_pos;
+				it_pos = folder_pos.begin();
+				folder_pos.insert(it_pos+i, std::make_pair(0, places.at(i).second));
+				//folder_pos.push_back(std::make_pair(0, places.at(i).second));
+
+				std::vector<folder>::iterator it_place;
+				it_place = folders.begin();
+
 				folder x;
-				folders.push_back(x);
+				folders.insert(it_place + i, x);
+				//folders.push_back(x);
 				break;
 			}
 			else if (i == places.size() - 1) {
@@ -27,6 +35,21 @@ void folder::add_folder() {
 	}
 	else {
 		folders.at(cho).add_folder();
+	}
+}
+
+
+void folder::remove_folder() {
+	if (cho == -1) {
+		if (choose != -1) {
+			folders.erase(folders.begin() + choose);
+			folder_pos.erase(folder_pos.begin() + choose);
+			places.at(choose).first = false;
+			choose -= 1;
+		}
+	}
+	else {
+		folders.at(cho).remove_folder();
 	}
 }
 

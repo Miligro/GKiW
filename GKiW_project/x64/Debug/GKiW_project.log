@@ -1,10 +1,10 @@
 ﻿  folder.cpp
-D:\GKiW\GKiW_project\folder.cpp(40,38): warning C4305: '-=': truncation from 'double' to 'T'
+D:\GKiW\GKiW_project\folder.cpp(63,38): warning C4305: '-=': truncation from 'double' to 'T'
           with
           [
               T=float
           ]
-D:\GKiW\GKiW_project\folder.cpp(43,38): warning C4305: '+=': truncation from 'double' to 'T'
+D:\GKiW\GKiW_project\folder.cpp(66,38): warning C4305: '+=': truncation from 'double' to 'T'
           with
           [
               T=float
