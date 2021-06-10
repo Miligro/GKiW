@@ -59,12 +59,9 @@ GLuint tex1;
 GLuint tex2;
 GLuint tex3;
 GLuint tex4;
-readModel wall("cube.obj");
+readModel wall("wall.obj");
 readModel folder1("container.obj");
 readModel lampa("reflector.obj");
-
-readModel kostka("kosteczka.obj");
-
 folder desktop;
 
 //Procedura obsługi błędów
@@ -362,7 +359,6 @@ void start() {
 	wall.read();
 	folder1.read();
 	lampa.read();
-	kostka.read();
 }
 
 
