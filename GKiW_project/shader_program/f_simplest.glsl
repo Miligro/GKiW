@@ -1,82 +1,48 @@
-//#version 330
-//
-//uniform sampler2D textureMap0;
-//
-//out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
-//
-//in vec4 ic;
-//in vec4 n;
-//in vec4 l;
-//in vec4 v;
-//in vec2 iTexCoord0;
-//
-//void main(void) {
-//
-//	vec4 texColor = texture(textureMap0,iTexCoord0);
-//
-//	vec4 ml = normalize(l);
-//	vec4 mn = normalize(n);
-//	vec4 mv = normalize(v);
-//
-//	vec4 mr = reflect(-ml,mn);
-//
-//	vec4 kd = texColor;
-//	vec4 ks = vec4(1,1,1,1);
-//	float nl = clamp(dot(mn,ml),0,1);
-//	float rv = pow(clamp(dot(mr,mv),0,1),130);
-//	pixelColor=vec4(kd.rgb * nl, kd.a) + vec4(ks.rgb*rv, 1);
-//	//pixelColor=ic;
-//}
-
-
-
-
-
-
-//te lepsze
 #version 330
 
 uniform sampler2D textureMap0;
 
 out vec4 pixelColor; //Zmienna wyjsciowa fragment shadera. Zapisuje sie do niej ostateczny (prawie) kolor piksela
 
-in vec3 FragPos;
-in vec3 Normal;
-in vec2 TexCoords;
+in vec4 n;
+in vec4 l1;
+in vec4 l2;
+in vec4 l3;
+in vec4 l4;
+in vec4 v;
+in vec2 iTexCoord0;
 
 void main(void) {
 
-    vec3 lightPos = vec3(0.248954f,-1.431387f,0.0f);
-    vec3 lightDiff = vec3(0.9f);
-	vec4 texColor = texture(textureMap0,TexCoords);
+	vec4 texColor = texture(textureMap0,iTexCoord0);
+	vec4 mn = normalize(n);
+	vec4 mv = normalize(v);
 
+	vec4 ml1 = normalize(l1);
+	vec4 mr1 = reflect(-ml1,mn);
+	float nl1 = clamp(dot(mn,ml1),0,1);
+	float rv1 = pow(clamp(dot(mr1,mv),0,1),80);
+
+	vec4 ml2 = normalize(l2);
+	vec4 mr2 = reflect(-ml2,mn);
+	float nl2 = clamp(dot(mn,ml2),0,1);
+	float rv2 = pow(clamp(dot(mr2,mv),0,1),80);
+
+	vec4 ml3 = normalize(l3);
+	vec4 mr3 = reflect(-ml3,mn);
+	float nl3 = clamp(dot(mn,ml3),0,1);
+	float rv3 = pow(clamp(dot(mr3,mv),0,1),30);
+
+	vec4 ml4 = normalize(l4);
+	vec4 mr4 = reflect(-ml4,mn);
+	float nl4 = clamp(dot(mn,ml4),0,1);
+	float rv4 = pow(clamp(dot(mr4,mv),0,1),80);
 
 	vec4 kd = texColor;
-	vec3 ks = vec3(1);
+	vec4 ks = vec4(1,1,1,1);
 
-	//ambient
-	vec3 ambient = vec3(0.2f) * kd.rgb;
-
-	//diffuse
-    vec3 norm = normalize(Normal);
-    vec3 lightDir = normalize(lightPos - FragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = lightDiff * diff * kd.xyz;
-    
-    // Specular
-    //tutaj wektor pozycji
-    vec3 viewDir = normalize(vec3(0.0,0.0,0.0) - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 260);
-    vec3 specular = ks * spec * ks;
-    
-    // Attenuation
-    float distance    = length(lightPos - FragPos);
-    float attenuation = 1.0f / (1.0f + 0.09 * distance + 0.002 * (distance * distance));
-    
-    ambient  *= attenuation;
-    diffuse  *= attenuation;
-    specular *= attenuation;
-    
-    pixelColor = vec4(ambient + diffuse + specular, 1.0f);
+	pixelColor = vec4(kd.rgb * nl1, kd.a) + vec4(ks.rgb*rv1, 1);
+	pixelColor += vec4(kd.rgb * nl2, kd.a) + vec4(ks.rgb*rv2, 1);
+	//pixelColor += vec4(kd.rgb * nl3, kd.a) + vec4(ks.rgb*rv3, 1);
+	//pixelColor += vec4(kd.rgb * nl4, kd.a) + vec4(ks.rgb*rv4, 1);
 }

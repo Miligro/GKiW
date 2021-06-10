@@ -34,6 +34,7 @@ Place, Fifth Floor, Boston, MA  02110 - 1301  USA
 #include "folder.h"
 #include <iostream>
 #include <vector>
+#include <cmath>
 
 float lamp1 = 0;
 float lamp2 = 0;
@@ -58,9 +59,11 @@ GLuint tex1;
 GLuint tex2;
 GLuint tex3;
 GLuint tex4;
-readModel wall("cubewall.obj");
+readModel wall("cube.obj");
 readModel folder1("container.obj");
 readModel lampa("reflector.obj");
+
+readModel kostka("kosteczka.obj");
 
 folder desktop;
 
@@ -169,11 +172,13 @@ void freeOpenGLProgram(GLFWwindow* window) {
 	glDeleteTextures(1, &tex4);
 }
 
-void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
+void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
 
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
+	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
 	sp->use();
 	glUniform1i(sp->u("textureMap0"), 0);
 
@@ -245,11 +250,12 @@ void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 }
 
-void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V, glm::mat4 P) {
+void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
-
+	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
+	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
 	M = glm::translate(M, glm::vec3(3.6f, 2.0f, 3.6f));
 	M = glm::rotate(M, angle_1, glm::vec3(0.0f, 1.0f, 0.0f));
 
@@ -285,7 +291,7 @@ void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V
 	glDisableVertexAttribArray(sp->a("texCoord0"));
 }
 
-void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
+void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
 	glm::mat4 M = glm::mat4(1.0f);
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
@@ -293,6 +299,9 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 	M = glm::mat4(1.0f);
 
 	sp->use();
+
+	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
+	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
 	glEnableVertexAttribArray(sp->a("texCoord0"));
 	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, folder1.gettexCoords());
 
@@ -301,6 +310,7 @@ void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P) {
 
 	glEnableVertexAttribArray(sp->a("normal"));
 	glVertexAttribPointer(sp->a("normal"), 4, GL_FLOAT, false, 0, folder1.getNormals());
+
 	glUniform1i(sp->u("textureMap0"), 3);
 	glActiveTexture(GL_TEXTURE3);
 	glBindTexture(GL_TEXTURE_2D, tex3);
@@ -338,9 +348,18 @@ void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, fl
 
 	glm::mat4 V = glm::lookAt(pos, pos + calcDir(kat_x, kat_y), glm::vec3(0.0f, 1.0f, 0.0f)); //Wylicz macierz widoku
 	glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 0.1f, 50.0f); //Wylicz macierz rzutowania
-	drawRoom(window, V, P);
-	drawReflector(window, angle_1, angle_2, V, P);
-	drawFolders(window, V, P);
+
+	glm::mat3 R1 = glm::mat3(glm::vec3(cos(angle_1), 0, sin(angle_1)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_1), 0, cos(angle_1)));
+	glm::vec3 N1 = glm::vec3(0.0f, -0.26f, -0.11f) * R1;
+	glm::vec3 lp1 = N1 + glm::vec3(3.6f, 2.00f, 3.6f);
+
+	glm::mat3 R2 = glm::mat3(glm::vec3(cos(angle_2), 0, sin(angle_2)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_2), 0, cos(angle_2)));
+	glm::vec3 N2 = glm::vec3(0.0f, -0.26f, -0.11f) * R2;
+	glm::vec3 lp2 = N2 + glm::vec3(-3.6f, 2.00f, 3.6f);
+
+	drawRoom(window, V, P, glm::vec4(lp1, 1), glm::vec4(lp2, 1));
+	drawReflector(window, angle_1, angle_2, V, P, glm::vec4(lp1,1), glm::vec4(lp2, 1));
+	drawFolders(window, V, P, glm::vec4(lp1, 1), glm::vec4(lp2, 1));
 	glfwSwapBuffers(window);
 }
 
@@ -348,6 +367,7 @@ void start() {
 	wall.read();
 	folder1.read();
 	lampa.read();
+	kostka.read();
 }
 
 
@@ -355,7 +375,7 @@ int main(void)
 {
 	GLFWwindow* window; //Wskaźnik na obiekt reprezentujący okno
 	start();
-
+	
 	glfwSetErrorCallback(error_callback);//Zarejestruj procedurę obsługi błędów
 
 	if (!glfwInit()) { //Zainicjuj bibliotekę GLFW
@@ -363,7 +383,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	window = glfwCreateWindow(500, 500, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1920, 1080, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -372,24 +392,25 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	glfwMakeContextCurrent(window); //Od tego momentu kontekst okna staje się aktywny i polecenia OpenGL będą dotyczyć właśnie jego.
-	glfwSwapInterval(1); //Czekaj na 1 powrót plamki przed pokazaniem ukrytego bufora
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
 
-	if (glewInit() != GLEW_OK) { //Zainicjuj bibliotekę GLEW
+	if (glewInit() != GLEW_OK) {
 		fprintf(stderr, "Nie można zainicjować GLEW.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	initOpenGLProgram(window); //Operacje inicjujące
+	initOpenGLProgram(window);
 
-	//Główna pętla
-	float angle_1 = 0; //Aktualny kąt obrotu obiektu
-	float angle_2 = 0; //Aktualny kąt obrotu obiektu
-	float angle = 0; //zadeklaruj zmienną przechowującą aktualny kąt obrotu
+	
+	float angle_1 = 0;
+	float angle_2 = 0; 
+	float angle = 0;
 	float kat_x = 0;
 	float kat_y = 0;
-	glfwSetTime(0); //Zeruj timer
-	while (!glfwWindowShouldClose(window)) //Tak długo jak okno nie powinno zostać zamknięte
+
+	glfwSetTime(0);
+	while (!glfwWindowShouldClose(window))
 	{
 		kat_x += speed_x1 * glfwGetTime();
 		kat_y += speed_y1 * glfwGetTime();
