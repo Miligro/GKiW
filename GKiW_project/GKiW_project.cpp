@@ -336,7 +336,7 @@ void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, fl
 	glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 0.1f, 50.0f); //Wylicz macierz rzutowania
 
 	glm::mat3 R1 = glm::mat3(glm::vec3(cos(angle_1), 0, sin(angle_1)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_1), 0, cos(angle_1)));
-	glm::vec3 N1 = glm::vec3(0.0f, -0.24f, -0.09f) * R1;
+	glm::vec3 N1 = glm::vec3(0.0f, -0.26f, -0.11f) * R1;
 	glm::vec3 lp1 = N1 + glm::vec3(3.6f, 2.00f, 3.6f);
 
 	glm::mat3 R2 = glm::mat3(glm::vec3(cos(-angle_2), 0, sin(-angle_2)), glm::vec3(0, 1, 0), glm::vec3(-sin(-angle_2), 0, cos(-angle_2)));
