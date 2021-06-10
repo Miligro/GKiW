@@ -175,11 +175,7 @@ void freeOpenGLProgram(GLFWwindow* window) {
 void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
 
 	glm::mat4 M = glm::mat4(1.0f);
-	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
-	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
-	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
-	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
-	sp->use();
+
 	glUniform1i(sp->u("textureMap0"), 0);
 
 	glEnableVertexAttribArray(sp->a("texCoord0"));
@@ -251,15 +247,12 @@ void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::
 }
 
 void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
+
 	glm::mat4 M = glm::mat4(1.0f);
-	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
-	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
-	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
-	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
+
 	M = glm::translate(M, glm::vec3(3.6f, 2.0f, 3.6f));
 	M = glm::rotate(M, angle_1, glm::vec3(0.0f, 1.0f, 0.0f));
 
-	sp->use();
 
 	glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 
@@ -292,16 +285,9 @@ void drawReflector(GLFWwindow* window, float angle_1, float angle_2, glm::mat4 V
 }
 
 void drawFolders(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::vec4 lp2) {
+
 	glm::mat4 M = glm::mat4(1.0f);
-	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
-	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
 
-	M = glm::mat4(1.0f);
-
-	sp->use();
-
-	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(lp1));
-	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(lp2));
 	glEnableVertexAttribArray(sp->a("texCoord0"));
 	glVertexAttribPointer(sp->a("texCoord0"), 2, GL_FLOAT, false, 0, folder1.gettexCoords());
 
@@ -350,12 +336,21 @@ void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, fl
 	glm::mat4 P = glm::perspective(glm::radians(50.0f), 1.0f, 0.1f, 50.0f); //Wylicz macierz rzutowania
 
 	glm::mat3 R1 = glm::mat3(glm::vec3(cos(angle_1), 0, sin(angle_1)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_1), 0, cos(angle_1)));
-	glm::vec3 N1 = glm::vec3(0.0f, -0.26f, -0.11f) * R1;
+	glm::vec3 N1 = glm::vec3(0.0f, -0.24f, -0.09f) * R1;
 	glm::vec3 lp1 = N1 + glm::vec3(3.6f, 2.00f, 3.6f);
 
-	glm::mat3 R2 = glm::mat3(glm::vec3(cos(angle_2), 0, sin(angle_2)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_2), 0, cos(angle_2)));
+	glm::mat3 R2 = glm::mat3(glm::vec3(cos(-angle_2), 0, sin(-angle_2)), glm::vec3(0, 1, 0), glm::vec3(-sin(-angle_2), 0, cos(-angle_2)));
 	glm::vec3 N2 = glm::vec3(0.0f, -0.26f, -0.11f) * R2;
 	glm::vec3 lp2 = N2 + glm::vec3(-3.6f, 2.00f, 3.6f);
+
+	sp->use();
+
+	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
+	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+
+	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(glm::vec4(lp1, 1)));
+	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(glm::vec4(lp2, 1)));
+
 
 	drawRoom(window, V, P, glm::vec4(lp1, 1), glm::vec4(lp2, 1));
 	drawReflector(window, angle_1, angle_2, V, P, glm::vec4(lp1,1), glm::vec4(lp2, 1));
