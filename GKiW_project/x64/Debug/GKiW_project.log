@@ -1,6 +1,40 @@
-﻿  GKiW_project.cpp
-D:\GKiW\GKiW_project\GKiW_project.cpp(406,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(407,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(410,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-D:\GKiW\GKiW_project\GKiW_project.cpp(413,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-  GKiW_project.vcxproj -> D:\GKiW\GKiW_project\x64\Debug\GKiW_project.exe
+﻿  folder.cpp
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\folder.cpp(59,38): warning C4305: '-=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\folder.cpp(62,38): warning C4305: '+=': truncation from 'double' to 'T'
+          with
+          [
+              T=float
+          ]
+  GKiW_project.cpp
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(373,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(373,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(381,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(381,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(390,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(390,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(406,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(407,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(410,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(413,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+  lodepng.cpp
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(762,34): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(1422,29): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(1426,31): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(1498,86): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(3441,46): warning C4334: '<<': result of 32-bit shift implicitly converted to 64 bits (was 64-bit shift intended?)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(3455,54): warning C4267: 'argument': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(4262,75): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(4310,41): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(4390,59): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\other_files\lodepng.cpp(5329,38): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+  readModel.cpp
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\readModel.cpp(69,36): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\readModel.cpp(120,37): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  shaderprogram.cpp
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\shader_program\shaderprogram.cpp(38,48): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  Generating Code...
+  GKiW_project.vcxproj -> C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\x64\Debug\GKiW_project.exe
