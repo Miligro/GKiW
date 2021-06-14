@@ -1,12 +1,12 @@
 ﻿  GKiW_project.cpp
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(379,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(379,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(387,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(387,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(396,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(396,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(412,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(413,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(383,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(383,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(391,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(391,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(400,19): warning C4566: character represented by universal-character-name '\u017C' cannot be represented in the current code page (1252)
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(400,19): warning C4566: character represented by universal-character-name '\u0107' cannot be represented in the current code page (1252)
 C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(416,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
-C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(419,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(417,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(420,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\GKiW_project.cpp(423,36): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
   GKiW_project.vcxproj -> C:\Users\Andrew\Documents\GitHub\GKiW\GKiW_project\x64\Debug\GKiW_project.exe
