@@ -1,6 +1,8 @@
 #version 330
 
 uniform sampler2D textureMap0;
+uniform int lpSw1;
+uniform int lpSw2;
 
 out vec4 pixelColor;
 
@@ -29,6 +31,6 @@ void main(void) {
 	vec4 kd = texColor;
 	vec4 ks = vec4(1,1,1,1);
 
-	pixelColor = vec4(kd.rgb * nl1, kd.a) + vec4(ks.rgb*rv1, 0);
-	pixelColor += vec4(kd.rgb * nl2, kd.a) + vec4(ks.rgb*rv2, 0);
+	pixelColor = vec4(kd.rgb * nl1 * lpSw1, kd.a) + vec4(ks.rgb*rv1 * lpSw1, 0);
+	pixelColor += vec4(kd.rgb * nl2 * lpSw2, kd.a) + vec4(ks.rgb*rv2 * lpSw2, 0);
 }

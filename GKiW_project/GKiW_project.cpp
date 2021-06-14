@@ -42,6 +42,8 @@ float aspectRatio = 1;
 float walk_speed = 0;
 float speed_x1 = 0;
 float speed_y1 = 0;
+int lampSwitch1 = 0;
+int lampSwitch2 = 0;
 
 glm::vec3 pos = glm::vec3(0.0f, -0.5f, 0.0f);
 
@@ -121,6 +123,8 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		if (key == 'F') speed_x1 = -1;
 		if (key == 'W') walk_speed = 2;
 		if (key == 'S') walk_speed = -2;
+		if (key == 'J') lampSwitch1 == 1 ? lampSwitch1 = 0 : lampSwitch1 = 1;
+		if (key == 'K') lampSwitch2 == 1 ? lampSwitch2 = 0 : lampSwitch2 = 1;
 		if (key == 'O') desktop.add_folder();
 	}
 	if (action == GLFW_RELEASE) {
@@ -344,6 +348,8 @@ void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, fl
 
 	glUniformMatrix4fv(sp->u("P"), 1, false, glm::value_ptr(P));
 	glUniformMatrix4fv(sp->u("V"), 1, false, glm::value_ptr(V));
+	glUniform1i(sp->u("lpSw1"), lampSwitch1);
+	glUniform1i(sp->u("lpSw2"), lampSwitch2);
 
 	glUniform4fv(sp->u("lp1"), 1, glm::value_ptr(glm::vec4(lp1, 1)));
 	glUniform4fv(sp->u("lp2"), 1, glm::value_ptr(glm::vec4(lp2, 1)));
