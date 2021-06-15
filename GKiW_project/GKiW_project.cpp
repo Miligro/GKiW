@@ -50,8 +50,8 @@ glm::vec3 pos = glm::vec3(0.0f, -0.5f, 0.0f);
 
 glm::vec3 calcDir(float kat_x, float kat_y) {
 	glm::vec4 dir = glm::vec4(0, 0, 1, 0);
-	glm::mat4 M = glm::rotate(glm::mat4(1.0f), kat_y, glm::vec3(0, 1, 0));
-	M = glm::rotate(M, kat_x, glm::vec3(1, 0, 0));
+	glm::mat4 M = glm::rotate(glm::mat4(1.0f), kat_y, glm::vec3(0, 1, 0)); //Right and left
+	M = glm::rotate(M, kat_x, glm::vec3(1, 0, 0)); //Top and bottom
 	dir = M * dir;
 	return glm::vec3(dir);
 }
@@ -108,10 +108,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			desktop.setChoose(1);
 		}
 		if (key == GLFW_KEY_ENTER) {
-			desktop.setCho();
+			desktop.setCho();	//Enter the folder
 		}
 		if (key == GLFW_KEY_ESCAPE) {
-			desktop.restoreCho();
+			desktop.restoreCho();	//Go to parent folder
 		}
 		if (key == 'L') desktop.remove_folder();
 		if (key == 'A') speed_y1 = 1;
@@ -197,8 +197,8 @@ void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::
 	for (int i = 0; i < 4; i++) {
 		M = glm::mat4(1.0f);
 		if (i == 0) {
-			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
-			M = glm::translate(M, glm::vec3(0.0f, 0.0f, 4.0f));
+			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //Rotate around Y
+			M = glm::translate(M, glm::vec3(0.0f, 0.0f, 4.0f)); //Move wall
 		}
 		else if (i == 1) {
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, 4.0f));
@@ -207,17 +207,17 @@ void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, -4.0f));
 		}
 		else {
-			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f));
+			M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 1.0f, 0.0f)); //Same rotate as i==0
 			M = glm::translate(M, glm::vec3(0.0f, 0.0f, -4.0f));
 		}
 
-		M = glm::scale(M, glm::vec3(4.0f, 2.0f, 0.2f));
+		M = glm::scale(M, glm::vec3(4.0f, 2.0f, 0.2f)); //width, height, thickness
 		glUniformMatrix4fv(sp->u("M"), 1, false, glm::value_ptr(M));
 
 		glDrawArrays(GL_TRIANGLES, 0, wall.getVertexNumber());
 	}
 
-
+	//Create floor
 	M = glm::mat4(1.0f);
 	M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	M = glm::translate(M, glm::vec3(-2.2f, 0.0f, 0.0f));
@@ -231,6 +231,7 @@ void drawRoom(GLFWwindow* window, glm::mat4 V, glm::mat4 P, glm::vec4 lp1, glm::
 	glBindTexture(GL_TEXTURE_2D, tex1);
 	glDrawArrays(GL_TRIANGLES, 0, wall.getVertexNumber());
 
+	//Create ceiling
 	M = glm::mat4(1.0f);
 	M = glm::rotate(M, 90.0f * PI / 180.0f, glm::vec3(0.0f, 0.0f, 1.0f));
 	M = glm::translate(M, glm::vec3(2.2f, 0.0f, 0.0f));
@@ -341,11 +342,11 @@ void drawScene(GLFWwindow* window, float angle_1, float angle_2, float kat_x, fl
 
 	glm::mat3 R1 = glm::mat3(glm::vec3(cos(angle_1), 0, sin(angle_1)), glm::vec3(0, 1, 0), glm::vec3(-sin(angle_1), 0, cos(angle_1)));
 	glm::vec3 N1 = glm::vec3(0.0f, -0.26f, -0.11f) * R1;
-	glm::vec3 lp1 = N1 + glm::vec3(3.6f, 2.00f, 3.6f);
+	glm::vec3 lp1 = N1 + glm::vec3(3.6f, 2.00f, 3.6f); //Light 1 ( Left )
 
 	glm::mat3 R2 = glm::mat3(glm::vec3(cos(-angle_2), 0, sin(-angle_2)), glm::vec3(0, 1, 0), glm::vec3(-sin(-angle_2), 0, cos(-angle_2)));
 	glm::vec3 N2 = glm::vec3(0.0f, -0.26f, -0.11f) * R2;
-	glm::vec3 lp2 = N2 + glm::vec3(-3.6f, 2.00f, 3.6f);
+	glm::vec3 lp2 = N2 + glm::vec3(-3.6f, 2.00f, 3.6f); //Light 2 ( Right )
 
 	sp->use();
 
@@ -384,7 +385,7 @@ int main(void)
 		exit(EXIT_FAILURE);
 	}
 
-	window = glfwCreateWindow(1920, 1080, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
+	window = glfwCreateWindow(1080, 1080, "OpenGL", NULL, NULL);  //Utwórz okno 500x500 o tytule "OpenGL" i kontekst OpenGL.
 
 	if (!window) //Jeżeli okna nie udało się utworzyć, to zamknij program
 	{
@@ -404,10 +405,10 @@ int main(void)
 	initOpenGLProgram(window);
 
 	
-	float angle_1 = 0;
+	float angle_1 = 0; //Angles for lamps
 	float angle_2 = 0; 
 	float angle = 0;
-	float kat_x = 0;
+	float kat_x = 0; //Angles for view
 	float kat_y = 0;
 
 	glfwSetTime(0);

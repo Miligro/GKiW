@@ -11,7 +11,7 @@ void readModel::read() {
 		while (!file.eof()) {
 			char header[128];
 			file >> header;
-			if (strcmp(header, "v") == 0) {
+			if (strcmp(header, "v") == 0) {			//Vertices
 				float x, y, z;
 				file >> x;
 				file >> y;
@@ -21,14 +21,14 @@ void readModel::read() {
 				vertices.push_back(z);
 				vertices.push_back(1);
 			}
-			else if (strcmp(header, "vt") == 0) {
+			else if (strcmp(header, "vt") == 0) {	//Texture coords
 				float x, y;
 				file >> x;
 				file >> y;
 				texCoords.push_back(x);
 				texCoords.push_back(y);
 			}
-			else if (strcmp(header, "vn") == 0) {
+			else if (strcmp(header, "vn") == 0) {	//normal vectors
 				float x, y, z;
 				file >> x;
 				file >> y;
@@ -38,7 +38,7 @@ void readModel::read() {
 				normals.push_back(z);
 				normals.push_back(0);
 			}
-			else if (strcmp(header, "f") == 0) {
+			else if (strcmp(header, "f") == 0) {	//Binding coords
 
 				counter = 0;
 				getline(file, tmp, '\n');

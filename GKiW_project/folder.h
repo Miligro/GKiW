@@ -7,11 +7,11 @@
 class folder
 {
 private:
-	std::vector<std::pair<int, glm::vec3>> folder_pos;
-	std::vector<std::pair<bool, glm::vec3>> places;
-	std::vector<folder> folders;
-	int choose;
-	int cho;
+	std::vector<std::pair<int, glm::vec3>> folder_pos;	//Positions of folders
+	std::vector<std::pair<bool, glm::vec3>> places;		
+	std::vector<folder> folders;	//Subfolders of current folder
+	int choose;		//Highlighted folder inside current folder
+	int cho;		//Folder in which the viewer is in.
 
 public:
 	folder();
