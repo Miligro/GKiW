@@ -36,5 +36,5 @@ public:
 	unsigned int* getIndexesTexCoord();
 	int getIndexNumber();
 	int getVertexNumber();
-	void przeteguj();
+	void convert();
 };

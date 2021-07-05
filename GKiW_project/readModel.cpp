@@ -68,7 +68,7 @@ void readModel::read() {
 
 	indexNumber = vertexIndexes.size();
 	vertexNumber = indexNumber / 3;
-	przeteguj();
+	convert();
 }
 
 float* readModel::getVertices() {
@@ -103,7 +103,7 @@ int readModel::getVertexNumber() {
 	return vertexNumber;
 }
 
-void readModel::przeteguj() {
+void readModel::convert() {
 
 	for (int i = 0; i < vertexIndexes.size(); i++) {
 		verticesN.push_back(vertices[4 * vertexIndexes[i]]);
