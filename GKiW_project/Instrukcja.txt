@@ -1,0 +1,24 @@
+Program musi być kompilowany w x64
+
+Światła domyślnie wyłączone
+Przełącznik lewego światła: J
+Przełącznik prawego światła: L
+
+Poruszanie się:
+	W
+S	A	D
+Spojrzenie w dół: R
+Spojrzenie w górę: F
+
+Utworzenie folderu: O
+Usunięcie folderu: L
+Wybranie folderu: klawisze strzałek
+Wejście w podświetlony folder: Enter
+Wyjście z folderu: Esc
+
+Zwiększenie jasności(prawego światła): =
+Zmniejszenie jasności(prawego światła): -
+
+Wykorzystane tekstury:
+https://www.cgtrader.com/free-3d-models/furniture/lamp/par-56-along-with-e27-reflector-lamp-to-fit-ultra-vitalux
+https://www.cgtrader.com/free-3d-models/industrial/tool/sci-fi-military-container
